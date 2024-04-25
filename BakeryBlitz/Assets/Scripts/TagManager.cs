@@ -12,7 +12,8 @@ public class TagManager : MonoBehaviour
 {
     public enum BaseTag
     {
-        None
+        None,
+        Enemy
     }
 
     public BaseTag tagType = BaseTag.None;
