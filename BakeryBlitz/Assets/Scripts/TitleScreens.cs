@@ -1,18 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
+/*
+ * Symon Belcher
+ * 4/25/2024
+ * Manages the title screen, and game over screen
+ */
+
 
 public class TitleScreens : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Switches scenes when Player dies, clicks restart, or play
+    /// </summary>
+    public void QuiteGame() // exits game
     {
-        
+
+        // print("quite game");
+        Application.Quit();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SwitchScene(int buildIndex)// switches scene to platofmer game from end scene
     {
-        
+        SceneManager.LoadScene(buildIndex);
     }
+
 }
