@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 6535625918021903381}
   - component: {fileID: 6892319786731517063}
   - component: {fileID: 8457255903666311005}
-  - component: {fileID: 8418328086994475483}
   m_Layer: 0
   m_Name: TargetRadius
   m_TagString: Untagged
@@ -167,29 +166,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &8418328086994475483
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3187401594713999136}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 80.40155
-  m_Direction: 1
-  m_Center: {x: 0.000000047683717, y: 0.6231308, z: -0.00000009536743}
 --- !u!1 &7314392872360182883
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8099958348760824554}
   - component: {fileID: 4795359559002743513}
+  - component: {fileID: 9154123028894613880}
   m_Layer: 0
   m_Name: Tower1
   m_TagString: Untagged
@@ -236,3 +213,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c95715810bb1db84fa5d8e1d2c0d0600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &9154123028894613880
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7314392872360182883}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 5
+  m_Height: 20
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

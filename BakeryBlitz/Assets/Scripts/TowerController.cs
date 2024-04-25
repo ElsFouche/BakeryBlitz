@@ -13,15 +13,8 @@ using UnityEngine;
  */
 public class TowerController : MonoBehaviour
 {
-    private Collider towerRadius;
     private List<EnemyData> enemiesInRange;
     private EnemyData enemyData;
-
-
-    private void Start()
-    {
-        towerRadius = GetComponentInChildren<Collider>();
-    }
 
 
     private void OnTriggerEnter(Collider other)
