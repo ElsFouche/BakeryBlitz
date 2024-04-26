@@ -15,9 +15,10 @@ public class EnemyMovement : MonoBehaviour
     //Creating pathpoint from the Point script
     Points[] pathPoint;
     public GameObject Enemy;
-    public int moveSpeed;
-    float timer;
+    public float moveSpeed;
+    private float timer;
     static Vector3 currentPosition;
+    static Vector3 startPosition;
     int currentPoint;
 
     // Start is called before the first frame update
@@ -33,7 +34,7 @@ public class EnemyMovement : MonoBehaviour
         timer += Time.deltaTime * moveSpeed;
         if (Enemy.transform.position != currentPosition)
         {
-            Enemy.transform.position = Vector3.Lerp(Enemy.transform.position, currentPosition, timer);
+            Enemy.transform.position = Vector3.Lerp(startPosition, currentPosition, timer);
         }
         else
         {
@@ -50,6 +51,7 @@ public class EnemyMovement : MonoBehaviour
     /// </summary>
     private void CheckPoint()
     {
+        startPosition = Enemy.transform.position;
         timer = 0;
         currentPosition = pathPoint[currentPoint].transform.position;
     }
