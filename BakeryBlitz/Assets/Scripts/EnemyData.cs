@@ -4,18 +4,35 @@ using UnityEngine;
 
 public class EnemyData : MonoBehaviour
 {
-    private int num;
+    public float timeStep = 0.5f;
 
-    public void SetTransform(Transform setPos)
+    private int IDNum;
+    private int speed;
+    private float distanceTraveled;
+
+    private void Start()
     {
-        transform.position = setPos.position;
+        //speed = gameObject.GetComponent<EnemyMovement>().moveSpeed;
+        speed = 1; // TODO: Remove this! This is for testing. 
+        IDNum = gameObject.GetInstanceID();
+        distanceTraveled = 0.0f;
+
+        InvokeRepeating("DistanceTraveled", timeStep, timeStep);
+        InvokeRepeating("UpdateSpeed", timeStep, timeStep);
     }
 
-    public void SetEnemyNum(int setNum)
+    public int GetEnemyNum() { return IDNum;}
+    public float EnemyPriority() { return distanceTraveled; }
+
+    private void UpdateSpeed()
     {
-        num = setNum;
+        // speed = gameObject.GetComponent<EnemyMovement>().moveSpeed;
+        speed = 1; // TODO: Remove this and uncomment the above. Testing only!
     }
 
-    public Transform GetTransform() { return transform; }
-    public int GetEnemyNum() { return num;}
+    private void DistanceTraveled()
+    {
+        // D = r(dt) where D is distance, r is speed, and d of t is the time step since last check
+        distanceTraveled += (speed * timeStep);
+    }
 }
