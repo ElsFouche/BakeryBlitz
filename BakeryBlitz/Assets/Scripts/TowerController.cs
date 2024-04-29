@@ -10,6 +10,8 @@ using UnityEngine;
  */
 public class TowerController : MonoBehaviour
 {
+    public GameObject bullet;
+    public float fireRate = 1.0f;
     public float findNewTargetEvery = 1.0f;
     private List<EnemyData> enemiesInRange = new List<EnemyData>();
     private EnemyData enemyData;
@@ -74,6 +76,8 @@ public class TowerController : MonoBehaviour
             Debug.Log("I have no target.");
         }
     }
+
+    public GameObject FindTarget() { return target; }
 }
 
 // TODO: Instantiate bullets 
