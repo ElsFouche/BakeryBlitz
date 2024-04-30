@@ -17,22 +17,9 @@ public class UIManager : MonoBehaviour
     public GameObject upPoint;
     public GameObject downPoint;
 
-    private Vector3 leftPos;
-    private Vector3 rightPos;
-
-    //public GameObject 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        Vector3 moveDir;
-
         if (Input.GetKey(KeyCode.Alpha1))
         {
             
@@ -45,13 +32,5 @@ public class UIManager : MonoBehaviour
            gameObject.transform.position = downPoint.transform.position;
 
         }
-        
-         
-      
-        
-
-      
-
-        
     }
 }
