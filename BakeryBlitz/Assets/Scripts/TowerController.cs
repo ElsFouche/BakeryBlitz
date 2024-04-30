@@ -4,22 +4,38 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-/* What do I want this script to do?
- * This script is supposed to target enemies that are within range of the tower.
- * It's working so far! See TODO at bottom
+/* Author: Fouche', Els
+ * Updated: 04/29/2024
+ * Notes:   
  */
 public class TowerController : MonoBehaviour
 {
-    public GameObject bullet;
+    public enum Prioritize
+    {
+        Furthest,
+        HighestHealth,
+        LowestHealth,
+        Fastest,
+        Slowest
+    }
+
+    [Header("Bullet Properties")]
+    public float bulletSpeed;
+    public float bulletDistance;
+    public float bulletArea;
+    public int bulletDamage;
     public float fireRate = 1.0f;
-    public float findNewTargetEvery = 1.0f;
+    public GameObject bullet;
+    [Header("Targeting Properties")]
+    public float findTargetDelay = 1.0f;
+    public Prioritize prioritize;
     private List<EnemyData> enemiesInRange = new List<EnemyData>();
     private EnemyData enemyData;
     private GameObject target;
 
     private void Start()
     {
-        InvokeRepeating("UpdateTarget", 0.0f, findNewTargetEvery);
+        InvokeRepeating("UpdateTarget", 0.0f, findTargetDelay);
     }
 
     /// <summary>
@@ -30,7 +46,7 @@ public class TowerController : MonoBehaviour
     {
         if (other.gameObject.GetComponent<EnemyData>())
         {
-            Debug.Log(other.gameObject.name + " has an Enemy Data script.");
+           // Debug.Log(other.gameObject.name + " has an Enemy Data script.");
             enemyData = other.gameObject.GetComponent<EnemyData>();
             enemiesInRange.Add(enemyData);
         }
@@ -54,6 +70,9 @@ public class TowerController : MonoBehaviour
 
     /// <summary>
     /// Finds the target duh
+    /// TODO: Add switch statement to search for highest health
+    /// enemy, lowest health enemy 
+    /// Use an Enum to allow the targeting to change in game. 
     /// </summary>
     private void UpdateTarget()
     {
@@ -62,9 +81,9 @@ public class TowerController : MonoBehaviour
             float highestPriority = 0.0f;
             foreach (EnemyData enemyData in enemiesInRange)
             {
-                if (enemyData.EnemyPriority() > highestPriority)
+                if (enemyData.EnemyPriority((int)prioritize) > highestPriority && enemyData)
                 {
-                    highestPriority = enemyData.EnemyPriority();
+                    highestPriority = enemyData.EnemyPriority((int)prioritize);
                     // Debug.Log("Highest Priority: " + highestPriority);
                     target = enemyData.gameObject;
                     // Debug.Log("My target is: " +  target);
@@ -73,14 +92,9 @@ public class TowerController : MonoBehaviour
         } else
         {
             target = null;
-            Debug.Log("I have no target.");
+           // Debug.Log("I have no target.");
         }
     }
 
     public GameObject FindTarget() { return target; }
 }
-
-// TODO: Instantiate bullets 
-// TODO: Bullets inherit rotation from turret head
-// TODO: Turret head has rotation constraints? 
-// TODO: Bullet movement & Logic (movement is only in forward vector because of inherited rotation)

@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6987246d91a0311449409124d0b36592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 0}
+  shootFromThis: {fileID: 2268619355350468080}
 --- !u!1 &1830619002538894317
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,6 +395,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c95715810bb1db84fa5d8e1d2c0d0600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletSpeed: 8
+  bulletDistance: 4
+  bulletArea: 0
+  bullet: {fileID: 8560618061884796564, guid: ef443962b221e634d8bd57a296ae6e32, type: 3}
+  fireRate: 1
   findNewTargetEvery: 1
 --- !u!136 &9154123028894613880
 CapsuleCollider:

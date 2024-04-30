@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class TowerShoot : MonoBehaviour
 {
+    private float bulletSpeed;
+    private float bulletDistance;
+    private float bulletArea;
+    private int bulletDamage;
+    public Transform shootFromThis;
     private float fireDelay;
     private bool waitingToShoot = false;
     private GameObject bullet;
@@ -28,6 +33,10 @@ public class TowerShoot : MonoBehaviour
         {
             fireDelay = controller.fireRate;
             bullet = controller.bullet;
+            bulletSpeed = controller.bulletSpeed;
+            bulletDistance = controller.bulletDistance;
+            bulletDamage = controller.bulletDamage;
+            bulletArea = controller.bulletArea;
         }
     }
 
@@ -57,6 +66,12 @@ public class TowerShoot : MonoBehaviour
 
     private void ShootBullet()
     {
-        Debug.Log("Firing!");
+       // Debug.Log("Firing!");
+        GameObject bulletFired = Instantiate(bullet, shootFromThis.position, transform.rotation);
+        TowerBullet tempBullet = bulletFired.GetComponent<TowerBullet>();
+        tempBullet.bulletDistance = bulletDistance;
+        tempBullet.bulletSpeed = bulletSpeed;
+        tempBullet.bulletDamage = bulletDamage;
+        tempBullet.bulletArea = bulletArea;
     }
 }
