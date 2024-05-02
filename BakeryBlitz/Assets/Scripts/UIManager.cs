@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
 /*
- * 4/25/2024
+ * 5/2/2024
  * Symon Belcher
  * Handles the UI, PLayer Health, Resource amount 
  */
@@ -15,9 +15,19 @@ public class UIManager : MonoBehaviour
     public TMP_Text resourceText;
 
 
-    // Update is called once per frame
-    void Update()
+  
+
+    public void UpdateHealth(int changedHealth)
     {
-        
+        healthText.text = "health" + changedHealth;
+    }
+
+    public void UpdateResource(int changedResource)
+    {
+        resourceText.text = "resource" + changedResource;
     }
 }
+        
+
+
+
