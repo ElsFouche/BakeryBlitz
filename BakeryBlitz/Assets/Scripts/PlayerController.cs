@@ -27,16 +27,17 @@ public class PlayerController : MonoBehaviour
     public GameObject barriorPointL;
     public GameObject barriorPointR;
     public SelectedTower selectedTower;
-    public List<GameObject> towers = null;
+    public List<GameObject> towers = new List<GameObject>();
 
-    private List<CardMovement> towerCards = null;
+    private List<CardMovement> towerCards = new List<CardMovement>();
     private Vector3 playerPos = new Vector3(0,0,0);
 
     private void Start()
     {
+        towerCards.Add(null);
         for (int i = 0; i < towers.Count; i++)
         {
-            towerCards[i] = towers[i].GetComponent<CardMovement>();
+            towerCards.Add(towers[i].GetComponentInChildren<CardMovement>());
         }
     }
 
@@ -51,19 +52,19 @@ public class PlayerController : MonoBehaviour
 
             gameObject.transform.position = playerPos;
         }
-        if (Input.GetKeyDown(KeyCode.A) && playerPos.x > barriorPointR.transform.position.x)// moves player left
+        if (Input.GetKeyDown(KeyCode.A) && playerPos.x > barriorPointL.transform.position.x)// moves player left
         {
             playerPos.x -= playerMove;
 
             gameObject.transform.position = playerPos;
         }
-        if (Input.GetKeyDown(KeyCode.W) && playerPos.x < barriorPointR.transform.position.z)//moves player up
+        if (Input.GetKeyDown(KeyCode.W) && playerPos.z < barriorPointR.transform.position.z)//moves player up
         {
             playerPos.z += playerMove;
 
             gameObject.transform.position = playerPos;
         }
-        if (Input.GetKeyDown(KeyCode.S) && playerPos.x > barriorPointR.transform.position.z)// moves player down
+        if (Input.GetKeyDown(KeyCode.S) && playerPos.z > barriorPointL.transform.position.z)// moves player down
         {
             playerPos.z -= playerMove;
 
@@ -85,14 +86,14 @@ public class PlayerController : MonoBehaviour
 
     private void PurchaseTower()
     {
-        // If some button press, and has enough resources, place tower where we are
-
         switch (selectedTower)
         {
             case SelectedTower.None:
                 break;
             case SelectedTower.Cookie:
+                break;
             case SelectedTower.Cake:
+                break;
             default:
                 break;
         }
@@ -107,6 +108,9 @@ public class PlayerController : MonoBehaviour
                 card.DeselectCard();
             }
         }
-        towerCards[(int)towerSelect].SelectCard();
+        if (towerCards[(int)towerSelect])
+        {
+            towerCards[(int)towerSelect].SelectCard();
+        }
     }
 }
