@@ -74,7 +74,6 @@ GameObject:
   - component: {fileID: 2282971647994567768}
   - component: {fileID: 668545904300620339}
   - component: {fileID: 6868385667848948785}
-  - component: {fileID: -2804901535654993518}
   m_Layer: 0
   m_Name: cookie_tower_card
   m_TagString: Untagged
@@ -171,19 +170,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &-2804901535654993518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8893632195482867341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dd3edbea6d931a498347575b6f08a45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthText: {fileID: 0}
-  resourceText: {fileID: 0}
-  upPoint: {fileID: 0}
-  downPoint: {fileID: 0}

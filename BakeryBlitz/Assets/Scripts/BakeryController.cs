@@ -12,6 +12,8 @@ public class BakeryController : MonoBehaviour
     public int health;
     public int maxHealth;
 
+    private TitleScreens sceneManager;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<TagManager>())
@@ -19,6 +21,10 @@ public class BakeryController : MonoBehaviour
             if (other.gameObject.GetComponent<TagManager>().tagType == TagManager.BaseTag.Enemy)
             {
                 health--;
+                if (health <= 0)
+                {
+                    sceneManager.SwitchScene(3);
+                }
                 Destroy(other.gameObject);
             }
         }    

@@ -16,5 +16,14 @@ public class TagManager : MonoBehaviour
         Enemy
     }
 
+    public enum ResourceType
+    {
+        None,
+        Butterfalls,
+        Sugerpond,
+        Flourmine
+    }
+
     public BaseTag tagType = BaseTag.None;
+    public ResourceType resourceType = ResourceType.None;
 }
