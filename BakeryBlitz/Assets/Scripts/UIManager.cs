@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
 
     public TMP_Text healthText;
     public TMP_Text resourceText;
-
+    
 
   
 

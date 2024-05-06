@@ -9,7 +9,6 @@ public class EnemyData : MonoBehaviour
     public int enemyHealth;
     [Tooltip("Enemy blinks once when hit, this \ndetermines how long the enemy is invisible (blinking)")]
     public float blinkSpeed = 0.2f;
-    public float speed;
     [Tooltip("This value determines how often \ndistance traveled checks are performed")]
     public float timeStep = 0.5f;
     public enum Prioritize
@@ -21,6 +20,7 @@ public class EnemyData : MonoBehaviour
         Slowest
     }
 
+    private float speed;
     private float distanceTraveled;
     // Used for determining inverse health & speed relationships:
     private float arbitrariyLargeValue = 10000.0f;  
@@ -29,8 +29,7 @@ public class EnemyData : MonoBehaviour
 
     private void Start()
     {
-        //speed = gameObject.GetComponent<EnemyMovement>().moveSpeed;
-        gameObject.GetComponent<TempEnemyMove>().SetSpeed(speed);
+        speed = gameObject.GetComponent<EnemyMovement>().moveSpeed;
         IDNum = gameObject.GetInstanceID();
         distanceTraveled = 0.0f;
 
@@ -88,8 +87,7 @@ public class EnemyData : MonoBehaviour
 
     private void UpdateSpeed()
     {
-        // speed = gameObject.GetComponent<EnemyMovement>().moveSpeed;
-        speed = 1; // TODO: Remove this and uncomment the above. Testing only!
+        speed = gameObject.GetComponent<EnemyMovement>().moveSpeed;
     }
 
     private void DistanceTraveled()
