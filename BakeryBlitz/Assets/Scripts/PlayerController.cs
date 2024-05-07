@@ -24,16 +24,22 @@ public class PlayerController : MonoBehaviour
         Cake
     }
 
+    [Header("Player Control")]
     [Tooltip("Player move should be adjusted to sync with game grid.")]
     public float playerMove = 2;
     [Tooltip("Lower left boundary point of the map.")]
     public GameObject barriorPointL;
     [Tooltip("Upper right boundary point of the map.")]
     public GameObject barriorPointR;
+    
     [Header("Tower Information")]
     public SelectedTower selectedTower;
+    [Header("Base Tower Cost")]
+    public int cookieTowerCost = 10;
+    public int cakeTowerCost = 20;
     [Tooltip("Add all towers here")]
     public List<GameObject> towers = new List<GameObject>();
+    
     [Header("Enemy Route")]
     [Tooltip("This is required for determining valid tower locations.")]
     public GameObject pathHolder;
@@ -48,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        towerCards.Add(null);
+        towerCards.Add(null); // Spacer to allow for easier manipulation later on. 
         for (int i = 0; i < towers.Count; i++)
         {
             towerCards.Add(towers[i].GetComponentInChildren<CardMovement>());
@@ -95,15 +101,23 @@ public class PlayerController : MonoBehaviour
             CheckIfValidPos();
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameController.Instance.QuitGame();
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             selectedTower = SelectedTower.Cookie;
             CardSelector(selectedTower);
-            PurchaseTower();
         } else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             selectedTower = SelectedTower.Cake;
             CardSelector(selectedTower);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.T))
+        {
             PurchaseTower();
         }
     }
@@ -117,8 +131,12 @@ public class PlayerController : MonoBehaviour
                 case SelectedTower.None:
                     break;
                 case SelectedTower.Cookie:
+                    Debug.Log("Paying for Cookie Tower");
+                    GameController.Instance.PayForTower(cookieTowerCost);
+                    // Place tower
                     break;
                 case SelectedTower.Cake:
+                    GameController.Instance.PayForTower(cakeTowerCost);
                     break;
                 default:
                     break;

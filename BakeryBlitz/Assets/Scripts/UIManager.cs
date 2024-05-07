@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
+
 /*
  * 5/2/2024
  * Symon Belcher
@@ -10,12 +10,8 @@ using UnityEditor.Experimental.GraphView;
  */
 public class UIManager : MonoBehaviour
 {
-
     public TMP_Text healthText;
     public TMP_Text resourceText;
-    
-
-  
 
     public void UpdateHealth(int changedHealth)
     {
@@ -27,7 +23,3 @@ public class UIManager : MonoBehaviour
         resourceText.text = "resource" + changedResource;
     }
 }
-        
-
-
-

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /* Author:  Fouche', Els
  * Updated: 04/30/2024
@@ -9,10 +10,8 @@ using UnityEngine;
 
 public class BakeryController : MonoBehaviour
 {
-    public int health;
-    public int maxHealth;
-
-    private TitleScreens sceneManager;
+    private int health;
+    private int maxHealth;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -23,10 +22,15 @@ public class BakeryController : MonoBehaviour
                 health--;
                 if (health <= 0)
                 {
-                    sceneManager.SwitchScene(3);
+                    GameController.Instance.SwitchScene(SceneManager.GetSceneByName("Screen_GameOver"));
                 }
                 Destroy(other.gameObject);
             }
         }    
     }
+
+    public void SetHealth(int health) { this.health = health; }
+    public void SetMaxHealth(int health) { this.maxHealth = health; }
+    public int GetHealth() { return this.health; }
+    public int GetMaxHealth() { return this.maxHealth; }
 }

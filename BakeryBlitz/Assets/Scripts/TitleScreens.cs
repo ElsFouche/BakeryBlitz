@@ -15,7 +15,7 @@ public class TitleScreens : MonoBehaviour
     /// <summary>
     /// Switches scenes when Player dies, clicks restart, or play
     /// </summary>
-    public void QuiteGame() // exits game
+    public void QuitGame() // exits game
     {
 
         // print("quite game");
