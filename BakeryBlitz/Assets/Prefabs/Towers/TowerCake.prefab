@@ -114,14 +114,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c95715810bb1db84fa5d8e1d2c0d0600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prioritize: 0
   bulletSpeed: 12
   bulletDistance: 2
   bulletArea: 0
   bulletDamage: 0
   fireRate: 0.1
   bullet: {fileID: 8560618061884796564, guid: ef443962b221e634d8bd57a296ae6e32, type: 3}
+  leadTarget: 0
   findTargetDelay: 1
-  prioritize: 0
 --- !u!136 &4709105745080509858
 CapsuleCollider:
   m_ObjectHideFlags: 0

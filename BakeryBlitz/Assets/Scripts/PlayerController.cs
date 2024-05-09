@@ -22,7 +22,8 @@ public class PlayerController : MonoBehaviour
     {
         None,
         Cookie,
-        Cake
+        Cake,
+        Gatherer
     }
 
     [Header("Player Control")]
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
     [Header("Tower Cost")]
     public int cookieTowerCost = 10;
     public int cakeTowerCost = 20;
+    public int gathererTowerCost = 30;
     public float costMult = 1.1f;
     [Header("Tower Prefabs")]
     [Tooltip("Add all tower types here.")]
@@ -152,6 +154,13 @@ public class PlayerController : MonoBehaviour
                     if (GameController.Instance.PayForTower(cakeTowerCost))
                     {
                         cakeTowerCost += Mathf.Min(1, (int)(cakeTowerCost * costMult));
+                        Instantiate(towerPrefabs[(int)selectedTower - 1], transform.position, Quaternion.identity);
+                    }
+                    break;
+                case SelectedTower.Gatherer:
+                    if (GameController.Instance.PayForTower(gathererTowerCost))
+                    {
+                        gathererTowerCost += Mathf.Min(1, (int)(cakeTowerCost * costMult));
                         Instantiate(towerPrefabs[(int)selectedTower - 1], transform.position, Quaternion.identity);
                     }
                     break;

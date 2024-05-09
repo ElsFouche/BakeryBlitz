@@ -65,7 +65,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHealth: 3
   blinkSpeed: 0.2
-  speed: 1
   timeStep: 0.5
 --- !u!114 &2185123726611123534
 MonoBehaviour:
@@ -79,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079864a4da6871c4f8ebafa6bb62e313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
+  moveSpeed: 3
   distToTarget: 1
   pathHolder: {fileID: 0}
 --- !u!65 &260007755675661750

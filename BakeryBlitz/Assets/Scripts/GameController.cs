@@ -54,13 +54,24 @@ public class GameController : MonoBehaviour
         } else { Debug.Log("BakeryController not found. Health values not set."); }
 
         uiManager.UpdateResource(currResources);
+        uiManager.UpdateHealth(currHealth, healthSymbol);
     }
 
     public void SwitchScene(Scene scene)
     {
         sceneManager.SwitchScene(scene.buildIndex);
     }
-
+    public void EndLevel()
+    {
+        uiManager.NextLevelButton();
+    }
+    public int GetHealth() { return currHealth; }
+    public void SetHealth(int newHealth) 
+    { 
+        currHealth = newHealth;
+        uiManager.UpdateHealth(currHealth, healthSymbol);
+    }
+    public void PlayerHurt(int damage) { currHealth -= damage; }
     public int GetResources() { return currResources; }
     public void AddResources(int resource) { currResources += resource; }
     public bool PayForTower(int resource) 

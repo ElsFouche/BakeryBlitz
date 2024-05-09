@@ -23,6 +23,9 @@ public class BakeryController : MonoBehaviour
                 if (health <= 0)
                 {
                     GameController.Instance.SwitchScene(SceneManager.GetSceneByName("Screen_GameOver"));
+                } else
+                {
+                    GameController.Instance.SetHealth(health);
                 }
                 Destroy(other.gameObject);
             }

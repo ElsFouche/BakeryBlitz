@@ -11,6 +11,8 @@ public class EnemyData : MonoBehaviour
     public float blinkSpeed = 0.2f;
     [Tooltip("This value determines how often \ndistance traveled checks are performed")]
     public float timeStep = 0.5f;
+
+    public int resourceAdded = 3;
     public enum Prioritize
     {
         Furthest,
@@ -66,6 +68,7 @@ public class EnemyData : MonoBehaviour
 
         if (enemyHealth <= 0)
         {
+            GameController.Instance.AddResources(resourceAdded);
             Destroy(gameObject);
         }
 

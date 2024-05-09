@@ -12,12 +12,16 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     //public variables
-    public GameObject Enemy;
+    public List<GameObject> enemyList = new List<GameObject>();
+    public GameObject pathHolder;
     public GameObject spawnPoint;
     public int enemiesPerWave = 1;
     public float minSpawnTime = 0;
     public float maxSpawnTime = 5;
     public float waveSpawnTime;
+    public int maxWaves = 3;
+    public int numWaves = 0;
+    public float enemyWeight = 1.0f;
 
     //private variables
     private Vector3 spawnLocation;
@@ -40,10 +44,15 @@ public class GameManager : MonoBehaviour
         //enemyCount amount will find objects of type that have the EnemyMovement script
         enemyCount = FindObjectsOfType<EnemyMovement>().Length;
         //If enemyCount hits 0 and not spawning a wave
-        if (enemyCount == 0 && !isSpawningWave)
+        if (enemyCount == 0 && !isSpawningWave && numWaves < maxWaves)
         {
             //Start the coroutine again
             StartCoroutine(SpawnEnemyWave(enemiesPerWave));
+            numWaves++;
+        } else if (enemyCount == 0 && numWaves >= maxWaves)
+        {
+            GameController.Instance.EndLevel();
+            gameObject.SetActive(false);
         }
     }
 
@@ -61,8 +70,10 @@ public class GameManager : MonoBehaviour
         //For starting at 0, increase until it reaches the amount of enemies to spawn
         for (int i = 0; i < enemyNumberToSpawn; i++)
         {
+            int enemySelected = (int)Random.Range(0, enemyWeight) + (int)Random.Range(0, enemyWeight);
             //Instantiate an enemy at the spawnLocation
-            Instantiate(Enemy, spawnLocation, Enemy.transform.rotation);
+            GameObject enemy = Instantiate(enemyList[enemySelected], spawnLocation, enemyList[enemySelected].transform.rotation);
+            enemy.GetComponent<EnemyMovement>().pathHolder = this.pathHolder;
             //Random range time to wait between each enemy spawn
             yield return new WaitForSeconds(Random.Range(minSpawnTime, maxSpawnTime)); //Time between each enemy spawn
         }
