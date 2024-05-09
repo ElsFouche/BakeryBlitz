@@ -5,29 +5,22 @@ using UnityEngine;
 
 public class TowerShoot : MonoBehaviour
 {
+    public Transform shootFromThis;
     private float bulletSpeed;
     private float bulletDistance;
     private float bulletArea;
     private int bulletDamage;
-    public Transform shootFromThis;
     private float fireDelay;
     private bool waitingToShoot = false;
     private GameObject bullet;
     private GameObject target;
     private TowerController controller;
+    private CustomLookAt targeting;
 
     // Start is called before the first frame update
     void Start()
     {
-        try
-        {
-            controller = gameObject.transform.parent.GetComponent<TowerController>();
-        }
-        catch
-        {
-            Debug.Log("Unable to access Tower Controller script in parent. \n" +
-                      "is this script attached to a child?");
-        }
+        controller = gameObject.GetComponentInParent<TowerController>();
 
         if (controller)
         {
@@ -37,7 +30,14 @@ public class TowerShoot : MonoBehaviour
             bulletDistance = controller.bulletDistance;
             bulletDamage = controller.bulletDamage;
             bulletArea = controller.bulletArea;
+        } else
+        {
+            Debug.Log("Unable to access Tower Controller script in parent. \n" +
+                      "is this script attached to a child?");
         }
+
+        targeting = GetComponent<CustomLookAt>();
+        targeting.SetTarget(null);
     }
 
     // Update is called once per frame
@@ -47,7 +47,7 @@ public class TowerShoot : MonoBehaviour
 
         if (target)
         {
-            transform.LookAt(target.transform.position);
+            targeting.SetTarget(target.transform);
         }
 
         if (target && !waitingToShoot)

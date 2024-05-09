@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
-using UnityEngine.UIElements;
 
 /* Author:  Fouche', Els
  * Updated: 04/29/2024
@@ -11,11 +9,16 @@ using UnityEngine.UIElements;
 
 public class Billboard : MonoBehaviour
 {
-    private Camera mainCamera;
+    public Camera mainCamera;
+
     private void Start()
     {
-        mainCamera = Camera.main;
+        if (!mainCamera)
+        {
+            mainCamera = Camera.main;
+        }
     }
+
     // Update is called once per frame
     void Update()
     {

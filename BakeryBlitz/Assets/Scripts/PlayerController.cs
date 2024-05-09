@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 using UnityEngine;
 /*
@@ -34,15 +35,19 @@ public class PlayerController : MonoBehaviour
     
     [Header("Tower Information")]
     public SelectedTower selectedTower;
-    [Header("Base Tower Cost")]
+    [Header("Tower Cost")]
     public int cookieTowerCost = 10;
     public int cakeTowerCost = 20;
-    [Tooltip("Add all towers here")]
-    public List<GameObject> towers = new List<GameObject>();
-    
+    public float costMult = 1.1f;
+    [Header("Tower Prefabs")]
+    [Tooltip("Add all tower types here.")]
+    public List<GameObject> towerPrefabs = new List<GameObject>();
+    [Tooltip("Add all tower cards here")]
+    public List<GameObject> towerCardPrefabs = new List<GameObject>();
+
     [Header("Enemy Route")]
     [Tooltip("This is required for determining valid tower locations.")]
-    public GameObject pathHolder;
+    public List<GameObject> pathHolder = new List<GameObject>();
     public Material validLocationColor;
     public Material invalidLocationColor;
 
@@ -55,17 +60,22 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         towerCards.Add(null); // Spacer to allow for easier manipulation later on. 
-        for (int i = 0; i < towers.Count; i++)
+        for (int i = 0; i < towerCardPrefabs.Count; i++)
         {
-            towerCards.Add(towers[i].GetComponentInChildren<CardMovement>());
+            towerCards.Add(towerCardPrefabs[i].GetComponentInChildren<CardMovement>());
         }
 
-        foreach (Transform child in pathHolder.transform)
+        for (int i = 0; i < pathHolder.Count; i++)
         {
-            enemyPath.Add(child);
+            foreach (Transform child in pathHolder[i].transform)
+            {
+                enemyPath.Add(child);
+            }
+            enemyPath.Add(null);
         }
 
         playerRenderer = GetComponentInChildren<Renderer>();
+        selectedTower = SelectedTower.Cookie;
     }
 
     void Update()
@@ -132,11 +142,18 @@ public class PlayerController : MonoBehaviour
                     break;
                 case SelectedTower.Cookie:
                     Debug.Log("Paying for Cookie Tower");
-                    GameController.Instance.PayForTower(cookieTowerCost);
-                    // Place tower
+                    if (GameController.Instance.PayForTower(cookieTowerCost))
+                    {
+                        cookieTowerCost += Mathf.Min(1, (int)(cookieTowerCost * costMult));
+                        Instantiate(towerPrefabs[(int)selectedTower - 1], transform.position, Quaternion.identity);
+                    }
                     break;
                 case SelectedTower.Cake:
-                    GameController.Instance.PayForTower(cakeTowerCost);
+                    if (GameController.Instance.PayForTower(cakeTowerCost))
+                    {
+                        cakeTowerCost += Mathf.Min(1, (int)(cakeTowerCost * costMult));
+                        Instantiate(towerPrefabs[(int)selectedTower - 1], transform.position, Quaternion.identity);
+                    }
                     break;
                 default:
                     break;
@@ -159,6 +176,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    // This should be decomposed.
+    // Minor alterations can make it check if we're within a bounding box as well.
     private void CheckIfValidPos()
     {
         Vector3 tempBound1;
@@ -166,22 +186,34 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < enemyPath.Count - 1; i++)
         {
-            if (enemyPath[i].position.sqrMagnitude < enemyPath[i + 1].position.sqrMagnitude) 
+            Debug.Log("Index: " + i);
+            if (enemyPath[i + 1] == null && i < enemyPath.Count - 2)
             {
-                tempBound1 = enemyPath[i].position;
-                tempBound2 = enemyPath[i + 1].position;
-            } else
+                Debug.Log("Skipping null.");
+                i += 1;
+            } else if (i >= enemyPath.Count - 2) 
             {
-                tempBound2 = enemyPath[i].position;
-                tempBound1 = enemyPath[i + 1].position;
-            }
+                break;
+            } 
+            else
+            {
+                if (enemyPath[i].position.sqrMagnitude < enemyPath[i + 1].position.sqrMagnitude) 
+                {
+                    tempBound1 = enemyPath[i].position;
+                    tempBound2 = enemyPath[i + 1].position;
+                } else
+                {
+                    tempBound2 = enemyPath[i].position;
+                    tempBound1 = enemyPath[i + 1].position;
+                }
             
-            if ( (transform.position.x >= tempBound1.x && transform.position.x <= tempBound2.x) && 
-                 (transform.position.z >= tempBound1.z && transform.position.z <= tempBound2.z) )
-            {
-                validPos = false;
-                playerRenderer.material = invalidLocationColor;
-                return;
+                if ( (transform.position.x >= tempBound1.x && transform.position.x <= tempBound2.x) && 
+                     (transform.position.z >= tempBound1.z && transform.position.z <= tempBound2.z) )
+                {
+                    validPos = false;
+                    playerRenderer.material = invalidLocationColor;
+                    return;
+                }
             }
         }
         validPos = true;

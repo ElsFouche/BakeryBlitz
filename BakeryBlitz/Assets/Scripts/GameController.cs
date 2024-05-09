@@ -30,26 +30,28 @@ public class GameController : MonoBehaviour
         } else
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);
         }
     }
 
     void Start()
     {
-        uiManager = UI.GetComponent<UIManager>();
+        if (!uiManager)
+        {
+            uiManager = GameObject.FindFirstObjectByType<UIManager>();
+        } else { Debug.Log("UIManager not found."); }
         if (!playerBakery)
         {
             playerBakery = GameObject.FindFirstObjectByType<BakeryController>();
-        }
+        } else { Debug.Log("BakeryController not found."); }
         if (!playerController)
         {
             playerController = GameObject.FindFirstObjectByType<PlayerController>();
-        }
+        } else { Debug.Log("PlayerController not found."); }
         if (playerBakery)
         {
             playerBakery.SetMaxHealth(maxHealth);
             playerBakery.SetHealth(currHealth);
-        } else { Debug.Log("Player Bakery not found!"); }
+        } else { Debug.Log("BakeryController not found. Health values not set."); }
 
         uiManager.UpdateResource(currResources);
     }
