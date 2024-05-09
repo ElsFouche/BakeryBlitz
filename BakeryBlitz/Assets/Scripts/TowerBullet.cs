@@ -10,13 +10,11 @@ public class TowerBullet : MonoBehaviour
     public float bulletArea;
     public int bulletDamage;
 
-    // Start is called before the first frame update
     void Start()
     {
         StartCoroutine("DespawnBullet");
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.position += transform.forward * bulletSpeed * Time.deltaTime;

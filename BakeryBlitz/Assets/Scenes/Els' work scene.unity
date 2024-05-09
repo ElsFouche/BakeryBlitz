@@ -1012,6 +1012,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2464112924331701418, guid: b7705dc5b0b20b240a3dd36813c8ad29, type: 3}
+      propertyPath: fireRate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2464112924331701418, guid: b7705dc5b0b20b240a3dd36813c8ad29, type: 3}
+      propertyPath: leadTarget
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4586819255362877803, guid: b7705dc5b0b20b240a3dd36813c8ad29, type: 3}
       propertyPath: m_Name
       value: TowerCookie

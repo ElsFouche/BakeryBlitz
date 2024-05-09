@@ -11,6 +11,7 @@ public class TowerShoot : MonoBehaviour
     private float bulletArea;
     private int bulletDamage;
     private float fireDelay;
+    private float leadTarget;
     private bool waitingToShoot = false;
     private GameObject bullet;
     private GameObject target;
@@ -24,12 +25,13 @@ public class TowerShoot : MonoBehaviour
 
         if (controller)
         {
-            fireDelay = controller.fireRate;
+            fireDelay = 10.1f - controller.fireRate;
             bullet = controller.bullet;
             bulletSpeed = controller.bulletSpeed;
             bulletDistance = controller.bulletDistance;
             bulletDamage = controller.bulletDamage;
             bulletArea = controller.bulletArea;
+            leadTarget = controller.leadTarget;
         } else
         {
             Debug.Log("Unable to access Tower Controller script in parent. \n" +
@@ -37,17 +39,18 @@ public class TowerShoot : MonoBehaviour
         }
 
         targeting = GetComponent<CustomLookAt>();
-        targeting.SetTarget(null);
+        targeting.SetTarget();
     }
 
-    // Update is called once per frame
     void Update()
     {
         target = controller.FindTarget();
 
         if (target)
         {
-            targeting.SetTarget(target.transform);
+            Vector3 targetPos = target.transform.position;
+            targetPos += target.transform.forward * leadTarget;
+            targeting.SetTarget(targetPos);
         }
 
         if (target && !waitingToShoot)

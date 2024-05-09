@@ -19,16 +19,21 @@ public class TowerController : MonoBehaviour
         Slowest
     }
 
+    [Header("Enemy Priority")]
+    public Prioritize prioritize;
     [Header("Bullet Properties")]
     public float bulletSpeed;
     public float bulletDistance;
     public float bulletArea;
     public int bulletDamage;
+    [Range(0.1f, 10.0f)]
     public float fireRate = 1.0f;
     public GameObject bullet;
     [Header("Targeting Properties")]
+    [Range(-5.0f, 5.0f)]
+    public float leadTarget;
     public float findTargetDelay = 1.0f;
-    public Prioritize prioritize;
+
     private List<EnemyData> enemiesInRange = new List<EnemyData>();
     private EnemyData enemyData;
     private GameObject target;

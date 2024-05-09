@@ -11,29 +11,70 @@ public class CustomLookAt : MonoBehaviour
     public bool y = true;
     public bool z = true;
 
+    private Vector3 targetPos;
+    private bool manualTargetSet = false;
+
     private void Start()
     {
         if (!mainCamera && !target)
         {
             mainCamera = Camera.main;
+        } else if (target)
+        {
+            targetPos = target.transform.position;
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (mainCamera && !target)
         {
-            LookAt(mainCamera.transform, offset, x, y, z);
+            LookAt(mainCamera.transform.position, offset, x, y, z);
         }
         else if (target && !mainCamera)
         {
-            LookAt(target, offset, x, y, z);
+            LookAt(targetPos, offset, x, y, z);
+        } else if (manualTargetSet)
+        {
+            LookAt(targetPos, offset, x, y, z);
         }
     }
-    public void SetTarget(Transform newTarget) { target = newTarget; mainCamera = null; }
 
-    public void LookAt(Transform target, Vector3 offset, bool x, bool y, bool z)
+    public void SetTarget()
+    {
+        manualTargetSet = false;
+        target = null;
+        mainCamera = null;
+    }
+
+    public void SetTarget(Transform newTarget) 
+    {
+        manualTargetSet = false;
+        target = newTarget;
+        targetPos = target.transform.position;
+        mainCamera = null; 
+    }
+
+    public void SetTarget(Vector3 newTarget)
+    {
+        manualTargetSet = true;
+        targetPos = newTarget;
+        mainCamera = null;
+    }
+
+    public void SetTarget(Camera newCamera)
+    {
+        manualTargetSet = false;
+        mainCamera = newCamera;
+        target = null;
+    }
+
+    public void LookAt(Vector3 target)
+    {
+        transform.LookAt(target);
+    }
+
+    public void LookAt(Vector3 target, Vector3 offset, bool x, bool y, bool z)
     {
         float xPos;
         float yPos;
@@ -41,7 +82,7 @@ public class CustomLookAt : MonoBehaviour
 
         if (x)
         {
-            xPos = target.position.x + offset.x;
+            xPos = target.x + offset.x;
         }
         else
         {
@@ -49,7 +90,7 @@ public class CustomLookAt : MonoBehaviour
         }
         if (y)
         {
-            yPos = target.position.y + offset.y;
+            yPos = target.y + offset.y;
         }
         else
         {
@@ -57,7 +98,7 @@ public class CustomLookAt : MonoBehaviour
         }
         if (z)
         {
-            zPos = target.position.z + offset.z;
+            zPos = target.z + offset.z;
         }
         else
         {
