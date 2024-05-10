@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &770049940882221426
+--- !u!1001 &7123353530891958863
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1183566018500220698, guid: a77906692d29dcb4bb8973406c81afad, type: 3}
       propertyPath: m_Name
-      value: CardCakeTower Variant
+      value: CardCookieTower
       objectReference: {fileID: 0}
     - target: {fileID: 7824815306830161283, guid: a77906692d29dcb4bb8973406c81afad, type: 3}
       propertyPath: m_LocalPosition.x
@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7824815306830161283, guid: a77906692d29dcb4bb8973406c81afad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.85
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 7824815306830161283, guid: a77906692d29dcb4bb8973406c81afad, type: 3}
       propertyPath: m_LocalRotation.w
@@ -83,7 +83,7 @@ PrefabInstance:
     - target: {fileID: 8270775256901255765, guid: a77906692d29dcb4bb8973406c81afad, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e9e53acf8f6ca5c41b790b594453609a, type: 2}
+      objectReference: {fileID: 2100000, guid: 6feaf920021734642999a99fd7ce94cc, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

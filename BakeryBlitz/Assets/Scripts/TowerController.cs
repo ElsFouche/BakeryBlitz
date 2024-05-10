@@ -26,6 +26,7 @@ public class TowerController : MonoBehaviour
     public float bulletDistance;
     public float bulletArea;
     public int bulletDamage;
+    public int bulletDurability;
     [Range(0.1f, 10.0f)]
     public float fireRate = 1.0f;
     public GameObject bullet;

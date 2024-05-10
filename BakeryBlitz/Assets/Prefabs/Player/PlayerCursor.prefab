@@ -421,19 +421,17 @@ MonoBehaviour:
   barriorPointL: {fileID: 8142303323978638404, guid: 5fc8227ee599c784f95ec4f490eefa0d, type: 3}
   barriorPointR: {fileID: 1256129715613331796, guid: 6d01b6c039b68bf48b83e601e7b14fcf, type: 3}
   selectedTower: 0
-  cookieTowerCost: 10
-  cakeTowerCost: 20
+  cookieTowerCost: 30
+  cakeTowerCost: 40
+  gathererTowerCost: 30
   costMult: 1.1
   towerPrefabs:
-  - {fileID: 7314392872360182883, guid: 231f0bb03a9711d40bf643c30ae21a29, type: 3}
-  - {fileID: 7314392872360182883, guid: 231f0bb03a9711d40bf643c30ae21a29, type: 3}
+  - {fileID: 4586819255362877803, guid: b7705dc5b0b20b240a3dd36813c8ad29, type: 3}
+  - {fileID: 4586819255362877803, guid: 9bd03b44b85829a4c92ee323e880b411, type: 3}
   towerCardPrefabs:
   - {fileID: 1928415106685058664, guid: a0c20d8ce78b05a428aea0d8ce6139bf, type: 3}
   - {fileID: 8266325567200767317, guid: 784f35453d333704b9322252d17c54b6, type: 3}
-  pathHolder:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  pathHolder: []
   validLocationColor: {fileID: 2100000, guid: 87c3dcacc0e632e4fbcfb4fd29709c2c, type: 2}
   invalidLocationColor: {fileID: 2100000, guid: 9aea95fce494f0d46897a1325e177314, type: 2}
 --- !u!1 &6580527728660630880

@@ -7,6 +7,7 @@ public class EnemyData : MonoBehaviour
 {
     [Header("Enemy Stats")]
     public int enemyHealth;
+    public int enemyDamage;
     [Tooltip("Enemy blinks once when hit, this \ndetermines how long the enemy is invisible (blinking)")]
     public float blinkSpeed = 0.2f;
     [Tooltip("This value determines how often \ndistance traveled checks are performed")]
@@ -80,6 +81,7 @@ public class EnemyData : MonoBehaviour
             }
         }
     }
+    public int GetEnemyDamage() { return enemyDamage; }
 
     private IEnumerator DamageBlink(MeshRenderer mesh)
     {

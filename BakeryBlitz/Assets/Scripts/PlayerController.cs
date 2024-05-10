@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 /*
  * Symon Belcher
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Control")]
     [Tooltip("Player move should be adjusted to sync with game grid.")]
-    public float playerMove = 2;
+    public int playerMove = 2;
     [Tooltip("Lower left boundary point of the map.")]
     public GameObject barriorPointL;
     [Tooltip("Upper right boundary point of the map.")]
@@ -143,11 +144,11 @@ public class PlayerController : MonoBehaviour
                 case SelectedTower.None:
                     break;
                 case SelectedTower.Cookie:
-                    Debug.Log("Paying for Cookie Tower");
                     if (GameController.Instance.PayForTower(cookieTowerCost))
                     {
                         cookieTowerCost += Mathf.Min(1, (int)(cookieTowerCost * costMult));
                         Instantiate(towerPrefabs[(int)selectedTower - 1], transform.position, Quaternion.identity);
+                        CreateInvalidPoint();
                     }
                     break;
                 case SelectedTower.Cake:
@@ -155,19 +156,33 @@ public class PlayerController : MonoBehaviour
                     {
                         cakeTowerCost += Mathf.Min(1, (int)(cakeTowerCost * costMult));
                         Instantiate(towerPrefabs[(int)selectedTower - 1], transform.position, Quaternion.identity);
+                        CreateInvalidPoint();
                     }
                     break;
-                case SelectedTower.Gatherer:
+/*                case SelectedTower.Gatherer:
                     if (GameController.Instance.PayForTower(gathererTowerCost))
                     {
                         gathererTowerCost += Mathf.Min(1, (int)(cakeTowerCost * costMult));
                         Instantiate(towerPrefabs[(int)selectedTower - 1], transform.position, Quaternion.identity);
+                        CreateInvalidPoint();
                     }
                     break;
+                    */
                 default:
                     break;
             }
         }
+    }
+
+    private void CreateInvalidPoint()
+    {
+        GameObject invalid1 = new GameObject();
+        invalid1.transform.position = transform.position;
+        GameObject invalid2 = new GameObject();
+        invalid2.transform.position = transform.position;
+        enemyPath.Add(invalid1.transform);
+        enemyPath.Add(invalid2.transform);
+        enemyPath.Add(null);
     }
 
     private void CardSelector(SelectedTower towerSelect)
@@ -195,10 +210,8 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < enemyPath.Count - 1; i++)
         {
-            Debug.Log("Index: " + i);
             if (enemyPath[i + 1] == null && i < enemyPath.Count - 2)
             {
-                Debug.Log("Skipping null.");
                 i += 1;
             } else if (i >= enemyPath.Count - 2) 
             {
@@ -216,8 +229,8 @@ public class PlayerController : MonoBehaviour
                     tempBound1 = enemyPath[i + 1].position;
                 }
             
-                if ( (transform.position.x >= tempBound1.x && transform.position.x <= tempBound2.x) && 
-                     (transform.position.z >= tempBound1.z && transform.position.z <= tempBound2.z) )
+                if ( ((int)(Mathf.Round(transform.position.x)) >= (int)(Mathf.Round(tempBound1.x)) && (int)(Mathf.Round(transform.position.x)) <= (int)(Mathf.Round(tempBound2.x))) && 
+                     ((int)(Mathf.Round(transform.position.z)) >= (int)(Mathf.Round(tempBound1.z)) && (int)(Mathf.Round(transform.position.z)) <= (int)(Mathf.Round(tempBound2.z))))
                 {
                     validPos = false;
                     playerRenderer.material = invalidLocationColor;

@@ -20,13 +20,16 @@ public class GameManager : MonoBehaviour
     public float maxSpawnTime = 5;
     public float waveSpawnTime;
     public int maxWaves = 3;
-    public int numWaves = 0;
+    [Range(0.0f, 1.99f)]
     public float enemyWeight = 1.0f;
+    public float waveDifficultyIncrease = 0.1f;
+    public int waveEnemyIncrease = 0;
 
     //private variables
     private Vector3 spawnLocation;
     private bool isSpawningWave;
     private int enemyCount;
+    private int numWaves = 0;
 
 
     // Start is called before the first frame update
@@ -49,6 +52,8 @@ public class GameManager : MonoBehaviour
             //Start the coroutine again
             StartCoroutine(SpawnEnemyWave(enemiesPerWave));
             numWaves++;
+            enemyWeight = Mathf.Min(enemyWeight + waveDifficultyIncrease, 1.99f);
+            enemiesPerWave += waveEnemyIncrease;
         } else if (enemyCount == 0 && numWaves >= maxWaves)
         {
             GameController.Instance.EndLevel();

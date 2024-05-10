@@ -18,7 +18,6 @@ public class GameController : MonoBehaviour
     public string healthSymbol;
     public string resourceSymbol;
     private UIManager uiManager;
-    private TitleScreens sceneManager;
     private PlayerController playerController;
     private BakeryController playerBakery;
 
@@ -57,9 +56,9 @@ public class GameController : MonoBehaviour
         uiManager.UpdateHealth(currHealth, healthSymbol);
     }
 
-    public void SwitchScene(Scene scene)
+    public void SwitchScene(int scene)
     {
-        sceneManager.SwitchScene(scene.buildIndex);
+        SceneManager.LoadScene(scene);
     }
     public void EndLevel()
     {
@@ -71,9 +70,17 @@ public class GameController : MonoBehaviour
         currHealth = newHealth;
         uiManager.UpdateHealth(currHealth, healthSymbol);
     }
-    public void PlayerHurt(int damage) { currHealth -= damage; }
+    public void PlayerHurt(int damage) 
+    { 
+        currHealth -= damage;
+        uiManager.UpdateHealth(currHealth, healthSymbol);
+    }
     public int GetResources() { return currResources; }
-    public void AddResources(int resource) { currResources += resource; }
+    public void AddResources(int resource) 
+    { 
+        currResources += resource;
+        uiManager.UpdateResource(currResources);
+    }
     public bool PayForTower(int resource) 
     {
         if (currResources >= resource)
@@ -91,6 +98,6 @@ public class GameController : MonoBehaviour
     {
         // This is where we would add a confirmation screen. 
         Debug.Log("Exiting");
-        sceneManager.QuitGame();
+        Application.Quit();
     }
 }

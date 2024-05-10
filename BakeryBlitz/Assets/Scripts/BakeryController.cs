@@ -19,10 +19,10 @@ public class BakeryController : MonoBehaviour
         {
             if (other.gameObject.GetComponent<TagManager>().tagType == TagManager.BaseTag.Enemy)
             {
-                health--;
+                health -= other.gameObject.GetComponent<EnemyData>().GetEnemyDamage();
                 if (health <= 0)
                 {
-                    GameController.Instance.SwitchScene(SceneManager.GetSceneByName("Screen_GameOver"));
+                    GameController.Instance.SwitchScene(3);
                 } else
                 {
                     GameController.Instance.SetHealth(health);

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 /*
  * 5/2/2024
@@ -16,12 +16,12 @@ public class UIManager : MonoBehaviour
     public TMP_Text resourceText;
     public int nextSceneIndex;
 
-    private CardMovement buttonMove;
+    private GameObject nextLevelButton;
 
     private void Start()
     {
-        buttonMove = GetComponentInChildren<CardMovement>();
-        buttonMove.DeselectCard();
+        nextLevelButton = GetComponentInChildren<Button>().gameObject;
+        nextLevelButton.SetActive(false);
     }
 
     public void UpdateHealth(int health, string symbol = "♥")
@@ -46,11 +46,12 @@ public class UIManager : MonoBehaviour
 
     public void NextLevelButton()
     {
-        buttonMove.SelectCard();
+        nextLevelButton.SetActive(true);
     }
 
     public void ClickToNextLevel()
     {
-        GameController.Instance.SwitchScene(SceneManager.GetSceneByBuildIndex(nextSceneIndex));
+        Debug.Log("Next level clicked");
+        GameController.Instance.SwitchScene(nextSceneIndex);
     }
 }

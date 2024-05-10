@@ -54,9 +54,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyList:
-  - {fileID: 799192240817292206, guid: 81e7b6cbc4fa66e498adb39645916c34, type: 3}
-  - {fileID: 799192240817292206, guid: 81e7b6cbc4fa66e498adb39645916c34, type: 3}
-  - {fileID: 799192240817292206, guid: 81e7b6cbc4fa66e498adb39645916c34, type: 3}
+  - {fileID: 799192240817292206, guid: 3cdc925de74ab23498ab2fda85476670, type: 3}
+  - {fileID: 799192240817292206, guid: 33dd47c35d1300144a762aad5838a3fe, type: 3}
+  - {fileID: 799192240817292206, guid: 67ad25b675ef75b4dae5778d554f24fb, type: 3}
+  pathHolder: {fileID: 0}
   spawnPoint: {fileID: 92769559988421762}
   enemiesPerWave: 5
   minSpawnTime: 0

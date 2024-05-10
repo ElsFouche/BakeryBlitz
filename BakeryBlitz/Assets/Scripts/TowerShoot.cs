@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class TowerShoot : MonoBehaviour
@@ -12,6 +11,7 @@ public class TowerShoot : MonoBehaviour
     private int bulletDamage;
     private float fireDelay;
     private float leadTarget;
+    private int bulletDurability;
     private bool waitingToShoot = false;
     private GameObject bullet;
     private GameObject target;
@@ -32,6 +32,7 @@ public class TowerShoot : MonoBehaviour
             bulletDamage = controller.bulletDamage;
             bulletArea = controller.bulletArea;
             leadTarget = controller.leadTarget;
+            bulletDurability = controller.bulletDurability;
         } else
         {
             Debug.Log("Unable to access Tower Controller script in parent. \n" +
@@ -51,12 +52,11 @@ public class TowerShoot : MonoBehaviour
             Vector3 targetPos = target.transform.position;
             targetPos += target.transform.forward * leadTarget;
             targeting.SetTarget(targetPos);
-        }
-
-        if (target && !waitingToShoot)
-        {
-            StartCoroutine("ShootDelay");
-            ShootBullet();
+            if (!waitingToShoot)
+            {
+                StartCoroutine("ShootDelay");
+                ShootBullet();
+            }
         }
     }
 
@@ -76,5 +76,6 @@ public class TowerShoot : MonoBehaviour
         tempBullet.bulletSpeed = bulletSpeed;
         tempBullet.bulletDamage = bulletDamage;
         tempBullet.bulletArea = bulletArea;
+        tempBullet.bulletDurability = bulletDurability;
     }
 }
