@@ -160,6 +160,7 @@ public class PlayerController : MonoBehaviour
                     }
                     break;
 /*                case SelectedTower.Gatherer:
+                    if (close enough to resource script to build tower(script will have a bool that lets playercont if close enough to put))
                     if (GameController.Instance.PayForTower(gathererTowerCost))
                     {
                         gathererTowerCost += Mathf.Min(1, (int)(cakeTowerCost * costMult));
