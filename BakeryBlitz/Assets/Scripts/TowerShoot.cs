@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Author: Fouche', Els
+ * Updated: 04/25/2024
+ * Notes:   This script handles the shooting behavior of the towers.
+ *          It is tightly coupled to TowerController. It handles 
+ *          instantiation of bullets based on parameters set in the
+ *          TowerController which are set there for editor-friendliness. 
+ */
+
 public class TowerShoot : MonoBehaviour
 {
     public Transform shootFromThis;
@@ -18,7 +26,9 @@ public class TowerShoot : MonoBehaviour
     private TowerController controller;
     private CustomLookAt targeting;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Initializes all the values we need for bullet creation. 
+    /// </summary>
     void Start()
     {
         controller = gameObject.GetComponentInParent<TowerController>();
@@ -43,6 +53,13 @@ public class TowerShoot : MonoBehaviour
         targeting.SetTarget();
     }
 
+    /// <summary>
+    /// Finds our target using the TowerController's FindTarget function and
+    /// updates our facing direction towards that target based on an offset
+    /// in the target's forward vector as determined by our leadTarget variable.
+    /// Initializes our delay before firing again if we weren't already waiting
+    /// to fire and fires a bullet. 
+    /// </summary>
     void Update()
     {
         target = controller.FindTarget();
@@ -60,6 +77,10 @@ public class TowerShoot : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Basic wait function that is probably built into unity somewhere already?
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ShootDelay()
     {
         waitingToShoot = true;
@@ -67,6 +88,10 @@ public class TowerShoot : MonoBehaviour
         waitingToShoot = false;
     }
 
+    /// <summary>
+    /// Creates a bullet at the location of our 'barrel' (shootFromThis empty game object),
+    /// gets the bullet script attached to the new bullet and initializes its variables. 
+    /// </summary>
     private void ShootBullet()
     {
        // Debug.Log("Firing!");

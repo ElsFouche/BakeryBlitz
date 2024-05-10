@@ -428,9 +428,11 @@ MonoBehaviour:
   towerPrefabs:
   - {fileID: 4586819255362877803, guid: b7705dc5b0b20b240a3dd36813c8ad29, type: 3}
   - {fileID: 4586819255362877803, guid: 9bd03b44b85829a4c92ee323e880b411, type: 3}
+  - {fileID: 4945316657680589689, guid: 936bc9b8c004dc34180bda0e2e1b2b70, type: 3}
   towerCardPrefabs:
-  - {fileID: 1928415106685058664, guid: a0c20d8ce78b05a428aea0d8ce6139bf, type: 3}
-  - {fileID: 8266325567200767317, guid: 784f35453d333704b9322252d17c54b6, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 8266325567200767317, guid: d92fc246a9dcb4940ab792589c869648, type: 3}
   pathHolder: []
   validLocationColor: {fileID: 2100000, guid: 87c3dcacc0e632e4fbcfb4fd29709c2c, type: 2}
   invalidLocationColor: {fileID: 2100000, guid: 9aea95fce494f0d46897a1325e177314, type: 2}

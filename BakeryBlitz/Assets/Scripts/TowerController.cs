@@ -6,7 +6,11 @@ using UnityEngine;
 
 /* Author: Fouche', Els
  * Updated: 04/29/2024
- * Notes:   
+ * Notes:   This is the primary logic handler for tower behavior. 
+ *          It creates lists of enemies that are within range and can
+ *          prioritize which enemies it targets based on several inspector-set
+ *          parameters. TODO: Make it so players can adjust those parameters 
+ *          for each tower. 
  */
 public class TowerController : MonoBehaviour
 {
@@ -39,13 +43,19 @@ public class TowerController : MonoBehaviour
     private EnemyData enemyData;
     private GameObject target;
 
+    /// <summary>
+    /// Initialize our coroutine that updates our target every findTargetDelay
+    /// seconds. 
+    /// </summary>
     private void Start()
     {
         InvokeRepeating("UpdateTarget", 0.0f, findTargetDelay);
     }
 
     /// <summary>
-    /// Adds enemies to the list
+    /// When something enters our range, if it has an EnemyData script add
+    /// it to our list of enemies. Normally this would have been handled by
+    /// checking the tag manager but in this case proved unnecessary. 
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
@@ -59,7 +69,10 @@ public class TowerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Removes enemies from the list
+    /// When an enemy leaves our range as determined by its tag manager (I don't 
+    /// remember why, I'm terrible I know, this should definitely be the same
+    /// format as above but I'm scared I'll break it if I change it now) we 
+    /// remove it from its spot on the list. 
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerExit(Collider other)
@@ -75,10 +88,9 @@ public class TowerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Finds the target duh
-    /// TODO: Add switch statement to search for highest health
-    /// enemy, lowest health enemy 
-    /// Use an Enum to allow the targeting to change in game. 
+    /// This sets our target based on several modifiable parameters. It searches through
+    /// our list of enemies that are within our range, sorting them based on the priority
+    /// parameter using a simple highest-value search pattern. 
     /// </summary>
     private void UpdateTarget()
     {
@@ -102,5 +114,9 @@ public class TowerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Accessor method for determining our current target. 
+    /// </summary>
+    /// <returns></returns>
     public GameObject FindTarget() { return target; }
 }

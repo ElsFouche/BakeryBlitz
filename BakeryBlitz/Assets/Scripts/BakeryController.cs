@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /* Author:  Fouche', Els
- * Updated: 04/30/2024
- * Notes:   This script handles the player life counter
+ * Updated: 05/09/2024
+ * Notes:   This script handles player health and death scenario.
+ *          It communicates with the GameController to allow for
+ *          display updating.
  */
 
 public class BakeryController : MonoBehaviour
@@ -13,6 +15,13 @@ public class BakeryController : MonoBehaviour
     private int health;
     private int maxHealth;
 
+    /// <summary>
+    /// If an enemy hits our bakery at the end of the path, we take damage
+    /// based on the damage stat of the enemy. We notify the GameController
+    /// that we've taken damage. If we're out of health, we go to the Game
+    /// Over scene. Enemies that touch us are destroyed. 
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<TagManager>())

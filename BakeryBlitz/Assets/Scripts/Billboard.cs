@@ -11,6 +11,9 @@ public class Billboard : MonoBehaviour
 {
     public Camera mainCamera;
 
+    /// <summary>
+    /// If a camera hasn't been manually set, get the main camera.
+    /// </summary>
     private void Start()
     {
         if (!mainCamera)
@@ -19,7 +22,9 @@ public class Billboard : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Looks at the specified camera. 
+    /// </summary>
     void Update()
     {
         transform.LookAt(mainCamera.transform.position);

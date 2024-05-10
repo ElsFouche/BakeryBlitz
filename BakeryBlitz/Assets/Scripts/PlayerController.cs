@@ -11,9 +11,12 @@ using UnityEngine;
  * handles player movment throuout the map
  * 
  * Author:  Fouche', Els
- * Updated: 04/30/2024
- * Notes:   Player ability to purchase & place towers
- *          
+ * Updated: 05/09/2024
+ * Notes:   This is the primary logic for the player allowing for movement,
+ *          purchasing and placing of towers, valid location checking to 
+ *          prevent tower placement on enemy paths and other towers, and 
+ *          selected card switching to show which tower type is currently
+ *          selected and ready for purchase. 
  */
 
 
@@ -60,6 +63,13 @@ public class PlayerController : MonoBehaviour
     private bool validPos = false;
     private Renderer playerRenderer;
 
+    /// <summary>
+    /// Initializes two lists, one of the cards we're using for UI elements
+    /// and one of the set of points that make up the enemy paths. We offset
+    /// the list of cards so that it matches up with our enumerator above due
+    /// to 0 being 'none' tower. We also initialize our renderer variable and 
+    /// set our default tower to the cookie tower. 
+    /// </summary>
     private void Start()
     {
         towerCards.Add(null); // Spacer to allow for easier manipulation later on. 
@@ -68,6 +78,7 @@ public class PlayerController : MonoBehaviour
             towerCards.Add(towerCardPrefabs[i].GetComponentInChildren<CardMovement>());
         }
 
+        // Null-spaced list of all points that make up enemy routes. 
         for (int i = 0; i < pathHolder.Count; i++)
         {
             foreach (Transform child in pathHolder[i].transform)
@@ -81,6 +92,11 @@ public class PlayerController : MonoBehaviour
         selectedTower = SelectedTower.Cookie;
     }
 
+    /// <summary>
+    /// Primary input checker. Determines if the player is within the bounds of the map before 
+    /// allowing them to move. Quits the game with escape, allows for tower selection with
+    /// the alphanumeric 1 and 2 keys, and allows for tower purchase with many different keys.
+    /// </summary>
     void Update()
     {
         playerPos = gameObject.transform.position; // Determines the player's postion
@@ -127,6 +143,10 @@ public class PlayerController : MonoBehaviour
         {
             selectedTower = SelectedTower.Cake;
             CardSelector(selectedTower);
+        } else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            selectedTower = SelectedTower.Gatherer;
+            CardSelector(selectedTower);
         }
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.T))
@@ -135,6 +155,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Primary logic for purchasing and placing towers.
+    /// Only enters if we're currently in a valid position then switches based
+    /// on currently selected tower. If the GameController tells us we have 
+    /// enough resources, increases the cost of that tower and creates the tower at
+    /// our location. The tower cost should be handled in the tower controller script
+    /// rather than here (todo). We then call CreateInvalidPoint that adds a set of 
+    /// points to prevent the player placing towers on top of each other. 
+    /// </summary>
     private void PurchaseTower()
     { 
         if (validPos)
@@ -159,22 +188,24 @@ public class PlayerController : MonoBehaviour
                         CreateInvalidPoint();
                     }
                     break;
-/*                case SelectedTower.Gatherer:
-                    if (close enough to resource script to build tower(script will have a bool that lets playercont if close enough to put))
+                case SelectedTower.Gatherer:
                     if (GameController.Instance.PayForTower(gathererTowerCost))
                     {
                         gathererTowerCost += Mathf.Min(1, (int)(cakeTowerCost * costMult));
                         Instantiate(towerPrefabs[(int)selectedTower - 1], transform.position, Quaternion.identity);
-                        CreateInvalidPoint();
                     }
                     break;
-                    */
                 default:
                     break;
             }
         }
     }
 
+    /// <summary>
+    /// Creates two points and adds them to our null-spaced list that determines
+    /// the set of invalid points on the map. Two points are created due to how
+    /// the CheckIfValidPos handles validity determination. 
+    /// </summary>
     private void CreateInvalidPoint()
     {
         GameObject invalid1 = new GameObject();
@@ -186,6 +217,11 @@ public class PlayerController : MonoBehaviour
         enemyPath.Add(null);
     }
 
+    /// <summary>
+    /// When called, sets all cards in our list of cards to their 'down' state
+    /// then moves the selected tower to its 'up' state. 
+    /// </summary>
+    /// <param name="towerSelect"></param>
     private void CardSelector(SelectedTower towerSelect)
     {
         foreach(CardMovement card in towerCards)
@@ -201,9 +237,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    // This should be decomposed.
-    // Minor alterations can make it check if we're within a bounding box as well.
+    /// <summary>
+    /// This script checks if the player's current position is valid or not by comparing our 
+    /// current location to two known points and seeing if we're in between them. This is terrible,
+    /// slow, awful implementation. What this script SHOULD do is run once at the start and again
+    /// when we place a tower to load a list with a set of points that are invalid by determining 
+    /// the points in-between enemy navigation loctions. INSTEAD what this does is it compares the
+    /// player's location in real time to each of all sets of two known points (skipping over null
+    /// values and beginning at the next set of points) to determine if we're between them or not.
+    /// Sets our position to invalid if we're on top of a point or in-between two points.
+    /// This should be decomposed and re-written for clarity but it's super critical to the game 
+    /// and I don't have time. 
+    /// Minor alterations could make it check if we're within a bounding box as well. 
+    /// </summary>
     private void CheckIfValidPos()
     {
         Vector3 tempBound1;
@@ -244,8 +290,11 @@ public class PlayerController : MonoBehaviour
     }
 }
 
-/*          Attempt 1:
- *          
+/*          
+        Previous attempts at the above valid position check code. Left in for posterity and future learning. 
+
+            Attempt 1:
+         
             tempBound1 = enemyPath[i].position;
             Debug.Log("point 1: " + tempBound1);
             tempBound2 = enemyPath[i + 1].position;

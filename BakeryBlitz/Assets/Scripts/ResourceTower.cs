@@ -14,28 +14,34 @@ using UnityEngine.PlayerLoop;
 public class ResourceTower : MonoBehaviour
 {
     public float minDistToTarget = 5.0f;
-    public int resourcesPerTower = 50;
+    // public int resourcesPerTower = 50;
+    public float speed = 3.0f;
+    public int gatheringTime = 10;
 
     private int towerAmount = 0;
     private bool isGathering = false;
-    private int gatheringTime = 10;
     private float minDist = 5;
     private int resourceCount;
     private List<Resource> resourceList = new List<Resource>();
+    private bool targetReached = false;
+    private int targetIndex;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        //find resouces by scrpt
         Resource[] tempResourceList = FindObjectsOfType<Resource>();
         for (int i = 0; i < tempResourceList.Length; i++)
         {
             resourceList.Add(tempResourceList[i]);
         }
-        //find resouces by scrpt
         resourceCount = resourceList.Count;
 
-        //check if within range of any, if so inc toweramt
+        targetIndex = (int)Random.Range(0, resourceList.Count - 1 + 0.99f);
+
+
+/*        //check if within range of any, if so inc toweramt
         for (int i =0; i<resourceCount; i++)
         {
             if ((transform.position - resourceList[i].transform.position).sqrMagnitude <= minDist)
@@ -46,17 +52,41 @@ public class ResourceTower : MonoBehaviour
             {
                 resourceList.RemoveAt(i);
             }
-        }
+        }*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if the amount of towers is more than 0 and is not currently gathering
-        if (towerAmount != 0 && isGathering == false)
+        if (resourceList.Count > 0 && (transform.position - resourceList[targetIndex].transform.position).sqrMagnitude > 0.01f)
+        {
+            transform.LookAt(resourceList[targetIndex].transform.position);
+            transform.position += transform.forward * speed * Time.deltaTime;
+        } else if (!targetReached)
+        {
+            targetReached = true;
+            CheckForNearbyResources();
+        } else if (towerAmount > 0 && !isGathering)
         {
             //Gather
-            GatherResources();
+            StartCoroutine(GatherResources());
+        }
+    }
+
+    private void CheckForNearbyResources()
+    {
+        //check if within range of any, if so inc toweramt
+        for (int i = 0; i < resourceCount; i++)
+        {
+            if ((transform.position - resourceList[i].transform.position).sqrMagnitude <= minDist)
+            {
+                towerAmount++;
+                Debug.Log(towerAmount);
+            }
+/*            else
+            {
+                resourceList.RemoveAt(i);
+            }*/
         }
     }
 
@@ -74,7 +104,10 @@ public class ResourceTower : MonoBehaviour
         int temp = 0;
         foreach(Resource r in resourceList) 
         {
-            temp += r.GetResources();
+            if (r)
+            {
+                temp += r.GetResources();
+            }
         }
         GameController.Instance.AddResources(temp);
         //Set isSpawningWave to false when done
