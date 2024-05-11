@@ -17,17 +17,20 @@ public class UIManager : MonoBehaviour
     public int nextSceneIndex;
 
     private GameObject nextLevelButton;
+    private GameObject endlessButton;
 
     private void Start()
     {
         nextLevelButton = GetComponentInChildren<Button>().gameObject;
         nextLevelButton.SetActive(false);
+        endlessButton = GameObject.Find("EndlessButton");
+        endlessButton.SetActive(false);
     }
 
     public void UpdateHealth(int health, string symbol = "♥")
     {
         healthText.text = "";
-        if (health <= 10)
+        if (health <= 3)
         {
             for (int i = 0; i < health; i++)
             {
@@ -47,11 +50,22 @@ public class UIManager : MonoBehaviour
     public void NextLevelButton()
     {
         nextLevelButton.SetActive(true);
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(2))
+        {
+            endlessButton.SetActive(true);
+        }
     }
 
     public void ClickToNextLevel()
     {
-        Debug.Log("Next level clicked");
+        // Debug.Log("Next level clicked");
         GameController.Instance.SwitchScene(nextSceneIndex);
+    }
+
+    public void ClickForEndlessMode()
+    {
+        GameController.Instance.EnableEndlessMode();
+        nextLevelButton.SetActive(false);
+        endlessButton.SetActive(false);
     }
 }

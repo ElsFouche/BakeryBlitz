@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Serialization;
-using Unity.VisualScripting;
 using UnityEngine;
 /*
  * Symon Belcher
@@ -90,6 +85,7 @@ public class PlayerController : MonoBehaviour
 
         playerRenderer = GetComponentInChildren<Renderer>();
         selectedTower = SelectedTower.Cookie;
+        validPos = true;
     }
 
     /// <summary>
@@ -178,6 +174,8 @@ public class PlayerController : MonoBehaviour
                         cookieTowerCost += Mathf.Min(1, (int)(cookieTowerCost * costMult));
                         Instantiate(towerPrefabs[(int)selectedTower - 1], transform.position, Quaternion.identity);
                         CreateInvalidPoint();
+                        validPos = false;
+                        playerRenderer.material = invalidLocationColor;
                     }
                     break;
                 case SelectedTower.Cake:
@@ -186,6 +184,8 @@ public class PlayerController : MonoBehaviour
                         cakeTowerCost += Mathf.Min(1, (int)(cakeTowerCost * costMult));
                         Instantiate(towerPrefabs[(int)selectedTower - 1], transform.position, Quaternion.identity);
                         CreateInvalidPoint();
+                        validPos = false;
+                        playerRenderer.material = invalidLocationColor;
                     }
                     break;
                 case SelectedTower.Gatherer:

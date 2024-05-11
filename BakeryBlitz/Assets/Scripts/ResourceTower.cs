@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 /*
  * Belcher, Symon
  * Fouche, Els 
@@ -81,7 +78,6 @@ public class ResourceTower : MonoBehaviour
             if ((transform.position - resourceList[i].transform.position).sqrMagnitude <= minDist)
             {
                 towerAmount++;
-                Debug.Log(towerAmount);
             }
 /*            else
             {

@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     private bool isSpawningWave;
     private int enemyCount;
     private int numWaves = 0;
+    private bool endlessMode = false;
 
 
     // Start is called before the first frame update
@@ -47,14 +48,14 @@ public class GameManager : MonoBehaviour
         //enemyCount amount will find objects of type that have the EnemyMovement script
         enemyCount = FindObjectsOfType<EnemyMovement>().Length;
         //If enemyCount hits 0 and not spawning a wave
-        if (enemyCount == 0 && !isSpawningWave && numWaves < maxWaves)
+        if (enemyCount <= 0 && !isSpawningWave && (numWaves < maxWaves || endlessMode))
         {
             //Start the coroutine again
             StartCoroutine(SpawnEnemyWave(enemiesPerWave));
             numWaves++;
             enemyWeight = Mathf.Min(enemyWeight + waveDifficultyIncrease, 1.99f);
             enemiesPerWave += waveEnemyIncrease;
-        } else if (enemyCount == 0 && numWaves >= maxWaves)
+        } else if (enemyCount <= 0 && numWaves >= maxWaves && !endlessMode)
         {
             GameController.Instance.EndLevel();
             gameObject.SetActive(false);
@@ -79,10 +80,20 @@ public class GameManager : MonoBehaviour
             //Instantiate an enemy at the spawnLocation
             GameObject enemy = Instantiate(enemyList[enemySelected], spawnLocation, enemyList[enemySelected].transform.rotation);
             enemy.GetComponent<EnemyMovement>().pathHolder = this.pathHolder;
+            enemy.GetComponent<EnemyData>().enemyHealth += (int)(numWaves + numWaves * waveDifficultyIncrease);
             //Random range time to wait between each enemy spawn
             yield return new WaitForSeconds(Random.Range(minSpawnTime, maxSpawnTime)); //Time between each enemy spawn
         }
         //Set isSpawningWave to false when done
         isSpawningWave = false;
+    }
+
+    public void SetEndlessMode(bool isEndless) 
+    {
+        endlessMode = isEndless;
+        gameObject.SetActive(isEndless);
+        this.enabled = isEndless;
+        isSpawningWave = false;
+        StartCoroutine(SpawnEnemyWave(enemiesPerWave));
     }
 }

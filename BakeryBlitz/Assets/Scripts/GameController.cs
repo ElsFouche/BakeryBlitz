@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -31,6 +28,7 @@ public class GameController : MonoBehaviour
     private UIManager uiManager;
     private PlayerController playerController;
     private BakeryController playerBakery;
+    private GameManager[] gameManagers;
 
     /// <summary>
     /// Checker to ensure only one GameController is active in the scene. 
@@ -69,7 +67,9 @@ public class GameController : MonoBehaviour
         {
             playerBakery.SetMaxHealth(maxHealth);
             playerBakery.SetHealth(currHealth);
-        } else { Debug.Log("BakeryController not found. Health values not set."); }
+        } else { Debug.Log("BakeryController not found. Health values not set."); }    
+        gameManagers = FindObjectsOfType<GameManager>();
+        if (gameManagers.Length <= 0) { Debug.Log("GameManager not found."); }
 
         uiManager.UpdateResource(currResources);
         uiManager.UpdateHealth(currHealth, healthSymbol);
@@ -92,6 +92,14 @@ public class GameController : MonoBehaviour
     public void EndLevel()
     {
         uiManager.NextLevelButton();
+    }
+
+    public void EnableEndlessMode()
+    {
+        foreach (GameManager manager in gameManagers)
+        {
+            manager.SetEndlessMode(true);
+        }
     }
 
     /// <summary>
